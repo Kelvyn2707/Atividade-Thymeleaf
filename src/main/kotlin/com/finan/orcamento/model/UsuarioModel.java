@@ -37,10 +37,8 @@ public class UsuarioModel implements Serializable {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrcamentoModel> orcamentos = new ArrayList<>();
 
-    // Construtor sem parâmetros (necessário para JPA)
     public UsuarioModel() {}
 
-    // Construtor com parâmetros
     public UsuarioModel(Long id, String nomeUsuario, String nomeMae, String cpf, String rg, List<OrcamentoModel> orcamentos) {
         this.id = id;
         this.nomeUsuario = nomeUsuario;
@@ -50,7 +48,6 @@ public class UsuarioModel implements Serializable {
         this.orcamentos = orcamentos;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }

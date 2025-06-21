@@ -1,10 +1,12 @@
 package com.finan.orcamento.controller;
 
+import com.finan.orcamento.model.FornecedorModel;
 import com.finan.orcamento.model.UsuarioModel;
 import com.finan.orcamento.model.UsuarioOrcamentoDTO;
 import com.finan.orcamento.model.enums.IcmsEstados;
 import com.finan.orcamento.repositories.OrcamentoRepository;
 import com.finan.orcamento.repositories.UsuarioRepository;
+import com.finan.orcamento.service.FornecedorService;
 import com.finan.orcamento.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +32,20 @@ public class UsuarioController {
     @Autowired
     private OrcamentoRepository orcamentoRepository;
 
+    @Autowired
+    private FornecedorService fornecedorService;
+
     @GetMapping
     public String getUsuarioPage(Model model) {
-        List<UsuarioModel> usuarios = usuarioService.buscarUsuario(); // <- Deve incluir os orçamentos
+
+        List<UsuarioModel> usuarios = usuarioService.buscarUsuario();
         model.addAttribute("usuarios", usuarios);
+
+        List<FornecedorModel> fornecedores = fornecedorService.listarTodos();
+
+        fornecedores.forEach(fornecedor -> fornecedor.getProdutos().size());
+        model.addAttribute("fornecedores", fornecedores);
+
         model.addAttribute("usuarioModel", new UsuarioModel());
         model.addAttribute("orcamentoModel", new OrcamentoModel());
         return "usuarioPage";

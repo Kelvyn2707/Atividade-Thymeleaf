@@ -15,7 +15,6 @@ public class UsuarioOrcamentoDTO {
     public String getNomeUsuario() {
         return nomeUsuario;
     }
-
     public void setNomeUsuario(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
     }
@@ -23,7 +22,6 @@ public class UsuarioOrcamentoDTO {
     public String getCpf() {
         return cpf;
     }
-
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
@@ -31,7 +29,6 @@ public class UsuarioOrcamentoDTO {
     public String getRg() {
         return rg;
     }
-
     public void setRg(String rg) {
         this.rg = rg;
     }
@@ -39,7 +36,6 @@ public class UsuarioOrcamentoDTO {
     public String getNomeMae() {
         return nomeMae;
     }
-
     public void setNomeMae(String nomeMae) {
         this.nomeMae = nomeMae;
     }
@@ -47,7 +43,6 @@ public class UsuarioOrcamentoDTO {
     public BigDecimal getValorOrcamento() {
         return valorOrcamento;
     }
-
     public void setValorOrcamento(BigDecimal valorOrcamento) {
         this.valorOrcamento = valorOrcamento;
     }
@@ -55,7 +50,6 @@ public class UsuarioOrcamentoDTO {
     public IcmsEstados getIcmsEstados() {
         return icmsEstados;
     }
-
     public void setIcmsEstados(IcmsEstados icmsEstados) {
         this.icmsEstados = icmsEstados;
     }

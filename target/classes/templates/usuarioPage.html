@@ -3,12 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Kelvyn Honorato Rodrigues" />
     <title>Cadastro de Usuários</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <style>
+      header h1 {
+      color: #ffffff;       /* branco */
+      font-weight: bold;
+      font-size: 2.5rem;
+      margin: 1rem 0;
+      }
+
       body {
         background-color: #121212;
         color: #e0e0e0;
@@ -23,8 +31,9 @@
       }
 
       .container {
-        max-width: 900px;
+        max-width: 100%;
         margin: auto;
+        padding: 0 2rem;
       }
 
       form {
@@ -104,125 +113,241 @@
     </style>
   </head>
   <body>
+    <header style="text-align: center; margin: 1rem 0;">
+      <h1>Atividade Thymeleaf</h1>
+    </header>
+    <br>
     <div class="container">
-      <h1>Cadastro de novo usuário com orçamento</h1>
-      <form
-        id="formCadastroCompleto"
-        method="post"
-        action="/usuarios/salvarOrcamento"
-      >
-        <h3>Informações</h3>
-        <input type="text" name="nomeUsuario" placeholder="Nome" required />
-        <input type="text" name="rg" placeholder="RG" required />
-        <input type="text" name="cpf" placeholder="CPF" required />
-        <input type="text" name="nomeMae" placeholder="Nome da mãe" required />
-        <h3>Orçamento</h3>
-        <input
-          type="number"
-          step="0.01"
-          name="valorOrcamento"
-          placeholder="Valor do orçamento"
-          required
-        />
-        <select name="icmsEstados" required>
-          <option
-            th:each="estado : ${T(com.finan.orcamento.model.enums.IcmsEstados).values()}"
-            th:value="${estado}"
-            th:text="${estado}"
-          ></option>
-        </select>
-        <button type="submit" class="btn-submit">
-          Cadastrar
-        </button>
-      </form>
+      <!-- Primeira linha -->
+      <div class="row">
+        <!-- Cadastro de novo Usuário com Orçamento -->
+        <div class="col-md-6">
+          <form
+            id="formCadastroCompleto"
+            method="post"
+            action="/usuarios/salvarOrcamento"
+          >
+            <h2>Cadastro de Usuário com Orçamento</h2>
+            <input type="text" name="nomeUsuario" placeholder="Nome" required />
+            <input type="text" name="rg" placeholder="RG" required />
+            <input type="text" name="cpf" placeholder="CPF" required />
+            <input
+              type="text"
+              name="nomeMae"
+              placeholder="Nome da mãe"
+              required
+            />
+            <input
+              type="number"
+              step="20"
+              name="valorOrcamento"
+              placeholder="Valor do orçamento"
+              required
+            />
+            <select name="icmsEstados" required>
+              <option
+                th:each="estado : ${T(com.finan.orcamento.model.enums.IcmsEstados).values()}"
+                th:value="${estado}"
+                th:text="${estado}"
+              ></option>
+            </select>
+            <button type="submit" class="btn-submit">Cadastrar</button>
+          </form>
+        </div>
 
-      <br />
+        <!-- Cadastro de Fornecedor com Produto -->
+        <div class="col-md-6">
+          <form id="formFornecedorProduto" method="post" action="/fornecedores/salvarComProduto">
+            <h2>Cadastro de Fornecedor com Produto</h2>
+            <br>
+            <input type="text" name="nomeFantasia" placeholder="Nome Fantasia" required />
+            <input type="text" name="razaoSocial" placeholder="Razão Social" required />
+            <input type="text" name="cnpj" placeholder="CNPJ" required />
+            <input type="text" name="instituicaoSocial" placeholder="Instituição Social" required />
 
-      <h1>Adicionar orçamento para usuário já cadastrado</h1>
-      <form
-        id="formOrcamento"
-        method="post"
-        action="/usuarios/salvarOrcamentoExistente"
-      >
-        <label for="usuarioId">Selecionar Usuário:</label>
-        <select name="usuarioId" id="usuarioId" required>
-          <option value="" disabled selected>Escolha um usuário</option>
-          <option
-            th:each="usuario : ${usuarios}"
-            th:value="${usuario.id}"
-            th:text="${usuario.nomeUsuario + ' - ' + usuario.cpf}"
-          ></option>
-        </select>
-        <input
-          type="number"
-          step="10"
-          name="valorOrcamento"
-          placeholder="Valor do orçamento"
-          required
-        />
-        <select name="icmsEstados" required>
-          <option value="" disabled selected>Escolha o estado</option>
-          <option
-            th:each="estado : ${T(com.finan.orcamento.model.enums.IcmsEstados).values()}"
-            th:value="${estado}"
-            th:text="${estado}"
-          ></option>
-        </select>
-        <button type="submit">Salvar</button>
-      </form>
+            <h2> Produto </h2>
+            <br>
+            <input type="text" name="nomeProduto" placeholder="Nome do Produto" required />
+            <input type="text" name="codigoProduto" placeholder="Código do Produto" required />
+            <input type="number" step="0.01" name="valorProduto" placeholder="Valor de Compra" required />
+            <input
+              type="number"
+              step="0.01"
+              name="valorVendaProduto"
+              placeholder="Valor de Venda"
+              required
+            />
+            <input type="number" name="qtdProduto" placeholder="Quantidade" required />
+            <button type="submit" class="btn-submit">
+              Cadastrar Fornecedor e Produto
+            </button>
+          </form>
+        </div>
+        <br />
+      </div>
+
+      <!-- Segunda linha -->
+      <div class="row">
+        <div class="col-md-6">
+          <form id="formOrcamento" method="post"
+            action="/usuarios/salvarOrcamentoExistente"
+          >
+            <h1>Adicionar orçamento para usuário já cadastrado</h1>
+            <select name="usuarioId" id="usuarioId" required>
+              <option value="" disabled selected>Escolha um usuário</option>
+              <option
+                th:each="usuario : ${usuarios}"
+                th:value="${usuario.id}"
+                th:text="${usuario.nomeUsuario + ' - ' + usuario.cpf}"
+              ></option>
+            </select>
+            <input
+              type="number"
+              step="10"
+              name="valorOrcamento"
+              placeholder="Valor do orçamento"
+              required
+            />
+            <select name="icmsEstados" required>
+              <option value="" disabled selected>Escolha o estado</option>
+              <option
+                th:each="estado : ${T(com.finan.orcamento.model.enums.IcmsEstados).values()}"
+                th:value="${estado}"
+                th:text="${estado}"
+              ></option>
+            </select>
+            <button type="submit">Salvar</button>
+          </form>
+        </div>
+
+        <div class="col-md-6">
+          <form
+            id="formProduto"
+            method="post"
+            action="/produtos/salvar"
+          >
+            <h1>Adicionar produto para fornecedor já cadastrado</h1>
+            <select name="fornecedorId" id="fornecedorId" required>
+              <option value="" disabled selected>Escolha um fornecedor</option>
+              <option
+                th:each="fornecedor : ${fornecedores}"
+                th:value="${fornecedor.id}"
+                th:text="${fornecedor.nomeFantasia + ' - ' + fornecedor.cnpj}"
+              ></option>
+            </select>
+            <input type="text" name="nomeProduto" placeholder="Nome Do Produto" required/>
+            <input type="text" name="codigoProduto" placeholder="Código do Produto" required />
+            <input type="number" step="0.01" name="valorProduto" placeholder="Valor de Compra" required />
+            <input type="number" step="0.01" name="valorVendaProduto" placeholder="Valor de Venda" required />
+            <input type="number" name="qtdProduto" placeholder="Quantidade" required />
+            <button type="submit">Salvar</button>
+          </form>
+        </div>
+        <br />
+      </div>
+
+      <!-- Terceira linha -->
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Usuários</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>RG</th>
+                <th>Nome da Mãe</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.nomeUsuario}"></td>
+                <td th:text="${usuario.cpf}"></td>
+                <td th:text="${usuario.rg}"></td>
+                <td th:text="${usuario.nomeMae}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-6">
+          <h2>Fornecedores</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome Fantasia</th>
+                <th>Razao Social</th>
+                <th>CNPJ</th>
+                <th>Instituição Social</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="fornecedor : ${fornecedores}">
+                <td th:text="${fornecedor.nomeFantasia}"></td>
+                <td th:text="${fornecedor.razaoSocial}"></td>
+                <td th:text="${fornecedor.cnpj}"></td>
+                <td th:text="${fornecedor.instituicaoSocial}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <br>
-      <br>
 
-      <h2>Usuários</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>RG</th>
-            <th>Nome da Mãe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="usuario : ${usuarios}">
-            <td th:text="${usuario.nomeUsuario}"></td>
-            <td th:text="${usuario.cpf}"></td>
-            <td th:text="${usuario.rg}"></td>
-            <td th:text="${usuario.nomeMae}"></td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Quarta linha -->
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Orçamentos por Usuário</h2>
+          <div th:each="usuario : ${usuarios}">
+            <h3 th:text="'Usuário: ' + ${usuario.nomeUsuario}"></h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Valor do Orçamento</th>
+                  <th>ICMS (%)</th>
+                  <th>Valor do ICMS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="orcamento : ${usuario.orcamentos}">
+                  <td th:text="${orcamento.valorOrcamento}"></td>
+                  <td th:text="${orcamento.icmsEstados}"></td>
+                  <td th:text="${orcamento.valorICMS}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      <br>
-      <br>
-
-      <h2>Orçamentos por Usuário</h2>
-      <div th:each="usuario : ${usuarios}">
-        <h3 th:text="'Usuário: ' + ${usuario.nomeUsuario}"></h3>
-        <table>
-          <thead>
-          <tr>
-            <th>Valor do Orçamento</th>
-            <th>ICMS (%)</th>
-            <th>Valor do ICMS</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="orcamento : ${usuario.orcamentos}">
-            <td th:text="${orcamento.valorOrcamento}"></td>
-            <td th:text="${orcamento.icmsEstados}"></td>
-            <td th:text="${orcamento.valorICMS}"></td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="col-md-6">
+          <h2>Produtos por Fornecedor</h2>
+          <div th:each="fornecedor : ${fornecedores}">
+            <h3 th:text="'Fornecedor: ' + ${fornecedor.nomeFantasia}"></h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Valor Produto</th>
+                  <th>Codigo Produto</th>
+                  <th>Valor Venda Produto</th>
+                  <th>Qtd produto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="produto : ${fornecedor.produtos}">
+                  <td th:text="${produto.nomeProduto}"></td>
+                  <td th:text="${produto.valorProduto}"></td>
+                  <td th:text="${produto.codigoProduto}"></td>
+                  <td th:text="${produto.valorVendaProduto}"></td>
+                  <td th:text="${produto.qtdProduto}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-
-    <br />
-
-
-
     <script>
       document
         .getElementById("formCadastroCompleto")
@@ -261,5 +386,47 @@
             });
         });
     </script>
+    <script>
+      document
+        .getElementById("formFornecedorProduto")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const form = event.target;
+
+          const payload = {
+            nomeFantasia: form.nomeFantasia.value,
+            razaoSocial: form.razaoSocial.value,
+            cnpj: form.cnpj.value,
+            instituicaoSocial: form.instituicaoSocial.value,
+            nomeProduto: form.nomeProduto.value,
+            codigoProduto: form.codigoProduto.value,
+            valorProduto: parseFloat(form.valorProduto.value),
+            valorVendaProduto: parseFloat(form.valorVendaProduto.value),
+            qtdProduto: parseInt(form.qtdProduto.value),
+          };
+
+          fetch("/fornecedores/salvarComProduto", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(payload),
+          })
+            .then((res) => {
+              if (res.ok) {
+                alert("Fornecedor e produto cadastrados com sucesso!");
+                window.location.href = "/usuarios";
+              } else {
+                alert("Erro ao salvar fornecedor e produto.");
+              }
+            })
+            .catch((err) => {
+              console.error("Erro:", err);
+              alert("Erro na requisição.");
+            });
+        });
+    </script>
+
   </body>
 </html>
